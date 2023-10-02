@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 require('dotenv').config();
 
 const app = express();
+app.use(morgan('dev'));
 
 app.get('/', (req, res, next) => {
     res.send('Working');
@@ -21,7 +22,16 @@ app.use((error, req, res, next) => {
 });
 
 const PORT = process.env.PORT || 3000;
+const  MONGO_URI = process.env.MONGODB_URL;
 
-app.listen(PORT, () => {
-  console.log(`Server listening on port ${PORT}`);
-});
+mongoose.connect(MONGO_URI, {
+    dbName: process.env.DB_NAME,
+    useNewUrlParser: true,
+    useUnifiedTopology: true 
+}).then(() => {
+    console.log('MongoDB connected');
+    app.listen(PORT, () => {
+        console.log(`Server listening on port ${PORT}`);
+      });
+}).catch((err) => console.log(err.message));
+
