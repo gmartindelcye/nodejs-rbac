@@ -56,7 +56,8 @@ async(req, res, next) => {
 });
 
 router.get('/logout', async(req, res, next) => {
-    res.send('Logout');
+    req.logout();
+    res.redirect('/');
 });
 
 
