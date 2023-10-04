@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 require('dotenv').config();
 const session = require('express-session')
 const connectFlash = require('connect-flash')
+const passport = require('passport');
 
 // Initialization
 const app = express();
@@ -25,6 +26,11 @@ app.use(session({
         httpOnly: true
     }
 }));
+
+// Init passport
+app.use(passport.initialize());
+app.use(passport.session());
+require('./utils/passport.auth');
 
 app.use(connectFlash())
 app.use((req, res, next) => {
