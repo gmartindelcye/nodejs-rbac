@@ -56,9 +56,14 @@ async(req, res, next) => {
 });
 
 router.get('/logout', async(req, res, next) => {
-    req.logout();
-    res.redirect('/');
-});
+    req.logout(function(err) {
+      if (err) {
+        console.log('Error logging out:', err);
+        return next(err);
+      }
+      res.redirect('/');
+    });
+  });
 
 
 module.exports = router;
